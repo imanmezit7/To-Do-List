@@ -1,5 +1,28 @@
+'use client'
+import {useState} from 'react';
+
 export default function ToDo() 
 {
+    const [tasks, setTasks] = useState<{text: string; isDone: boolean}[]>([]);
+    const [newTask, setNewTask] = useState('');
+    
+    const handleAddTask = () => {
+      if (newTask.trim() === '') return;
+      setTasks([...tasks, { text: newTask, isDone: false }]);
+      setNewTask('');
+    };
+  
+    const handleTaskDoneClick = (index: number) => {
+      const updatedTasks = [...tasks];
+      updatedTasks[index].isDone = !updatedTasks[index].isDone;
+      setTasks(updatedTasks);
+    };
+  
+    const handleDeleteTask = (index: number) => {
+      const updatedTasks = tasks.filter((_, i) => i !== index);
+      setTasks(updatedTasks);
+    };
+    
     return (
       <div
        style={{
@@ -46,6 +69,8 @@ export default function ToDo()
             id="todo1" 
             name="ToDoPraksa" 
             placeholder="Add your task"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
             rows={1}
             style={{
                 flexGrow:1, //proportion of extra space
@@ -66,6 +91,7 @@ export default function ToDo()
 
             <button 
               type="button"
+              onClick={handleAddTask}
               style={{
                 height:"8vh",
                 width:"33%",
@@ -85,7 +111,9 @@ export default function ToDo()
               width:"100%"
             }}>
 
+            {tasks.map((task, index) => (
               <div
+              key={index}
               style={{
                 display:"flex",
                 alignItems:"center",
@@ -95,17 +123,20 @@ export default function ToDo()
 
               <button
               type="button"
+              onClick={() => handleTaskDoneClick(index)}
               style={{
                 height: "4vh",
                 width: "4vh",
                 borderRadius: "30px",
                 border: "3px solid #fa5531",
-                backgroundColor:"white",
+                backgroundColor: task.isDone ? "#fa5531" : "white",
+                //backgroundColor:"white",
                 //backgroundColor: "#fa5531",
                 fontSize: "90%",
                 color: "white",
                 marginRight: "1rem",
               }}>
+                 {task.isDone ? "✓" : ""}
             </button>
 
             <span //for styling or grouping text or inline elements
@@ -114,19 +145,23 @@ export default function ToDo()
                 fontSize: "100%",
                 fontFamily: "trebuchet ms",
                 color: "midnightblue",
+                textDecoration: task.isDone ? "line-through" : "none"
               }}>
-              Example Task
+              {task.text}
             </span>
 
             <button
+              onClick={() => handleDeleteTask(index)}
               style={{
                 fontSize: "110%",
                 marginLeft: "1rem",
+                border:"none",
+                cursor: "pointer"
               }}>
               ✖️
             </button>
             </div>
-
+            ))}
         </div>
         
         </div>
@@ -134,4 +169,5 @@ export default function ToDo()
       </div>
 
     );
+
 }

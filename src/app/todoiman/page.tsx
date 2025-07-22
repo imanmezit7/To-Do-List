@@ -94,6 +94,7 @@ export default function ToDo()
               }}>
 
               <button
+              type="button"
               style={{
                 height: "4vh",
                 width: "4vh",
@@ -105,7 +106,6 @@ export default function ToDo()
                 color: "white",
                 marginRight: "1rem",
               }}>
-              
             </button>
 
             <span //for styling or grouping text or inline elements
@@ -134,6 +134,4 @@ export default function ToDo()
       </div>
 
     );
-
-
 }

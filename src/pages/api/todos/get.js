@@ -1,21 +1,21 @@
-import { getTodos } from '../../todoiman/todoapi.js';
+import { getTodos } from '../../../app/todoiman/todoapi.js';
 
-export async function GET()
+export default async function handler(req, res) 
 {
-    try
+  if (req.method === 'GET') 
     {
-        const todos=await getTodos();
-        return new Response(JSON.stringify(todos),
+    try 
     {
-        status:200,
-        headers:{'Content-Type':'application/json',}
-    });
+      const todos = await getTodos();
+      res.status(200).json(todos);
+    } 
+    catch (err) 
+    {
+      res.status(500).json({ error: 'Failed to fetch todos' });
     }
-    catch (error)
-    {
-        return new Response(JSON.stringify({error:'Failed to fetch todos'}),
-        {
-            status:500,
-        });
-    }
+  } 
+  else 
+  {
+    res.status(405).json({ error: 'Method not allowed' });
+  }
 }

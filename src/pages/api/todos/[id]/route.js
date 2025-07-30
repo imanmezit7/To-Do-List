@@ -1,29 +1,35 @@
-import { deleteTodo, updateTodo } from '../../../../todoiman/todoapi';
+import { updateTodo, deleteTodo } from '../../../../app/todoiman/todoapi.js';
 
-export async function DELETE(req, { params }) {
-  try {
-    const { id } = params;
-    await deleteTodo(id);
-    return new Response(null, { status: 204 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to delete todo' }), {
-      status: 500,
-    });
-  }
-}
+export default async function handler(req, res) 
+{
+  const { id } = req.query;
 
-export async function PUT(req, { params }) {
-  try {
-    const { id } = params;
-    const body = await req.json();
-    const updated = await updateTodo(id, body);
-    return new Response(JSON.stringify(updated), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to update todo' }), {
-      status: 500,
-    });
+  if (req.method === 'PUT') 
+  {
+    try 
+    {
+      const updated = await updateTodo(id, req.body);
+      res.status(200).json(updated);
+    } 
+    catch (err) 
+    {
+      res.status(500).json({ error: 'Failed to update todo' });
+    }
+  } 
+  else if (req.method === 'DELETE') 
+  {
+    try 
+    {
+      await deleteTodo(id);
+      res.status(204).end();
+    } 
+    catch (err) 
+    {
+      res.status(500).json({ error: 'Failed to delete todo' });
+    }
+  } 
+  else 
+  {
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }

@@ -1,23 +1,21 @@
-import { createTodo } from '../../../todoiman/todoapi';
+import { createTodo } from '../../../app/todoiman/todoapi.js';
 
-export async function POST (req)
+export default async function handler(req, res) 
 {
-    try
+  if (req.method === 'POST') 
     {
-        const body=await req.json();
-        const newTodo=await createBrotliDecompress(body);
-
-        return new Response(JSON.stringify(newTodo),
-        {
-            status:201,
-            headers:{'Content-Type':'application/json'},
-        });
-    }
-    catch (error)
+    try 
     {
-        return new Response(JSON.stringify({error:'Failed to create todo'}),
-        {
-            status:500,
-        });
+      const newTodo = await createTodo(req.body);
+      res.status(201).json(newTodo);
+    } 
+    catch (err) 
+    {
+      res.status(500).json({ error: 'Failed to create todo' });
     }
+  } 
+  else 
+  {
+    res.status(405).json({ error: 'Method not allowed' });
+  }
 }

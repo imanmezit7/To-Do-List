@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+import { MongoClient, ObjectId } from 'mongodb';
 
 const uri = 'mongodb://localhost:27017'; 
 const client = new MongoClient(uri);
@@ -49,7 +49,7 @@ async function deleteTodo(id)
     await db.collection('todos').deleteOne({_id:new ObjectId(id)});
 }
 
-module.exports=
+export
 {
     getTodos,
     createTodo,

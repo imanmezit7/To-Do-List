@@ -35,12 +35,13 @@ async function createTodo(data)
 async function updateTodo(id, data)
 {
     const db=await connect();
+
     await db.collection('todos').updateOne
     (
         {_id:new ObjectId(id)},
         {$set:data}
     );
-    return await db.collection('todos').findOne({_id:newObject(id)});
+    return await db.collection('todos').findOne({_id:new ObjectId(id)});
 }
 
 async function deleteTodo(id)

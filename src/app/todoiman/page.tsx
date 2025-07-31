@@ -1,26 +1,84 @@
 'use client'
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+
+type Task=
+{
+    _id:string;
+    text:string;
+    isDone:boolean;
+};
 
 export default function ToDo() 
 {
-    const [tasks, setTasks] = useState<{text: string; isDone: boolean}[]>([]);
+    const [tasks, setTasks] = useState<Task[]>([]);
     const [newTask, setNewTask] = useState('');
+
+    useEffect(()=>
+    {
+        fetchTasks();
+    }, [])
+
+    const fetchTasks=async()=> 
+    {
+        const res=await fetch('api/todos/get');
+        const data=await res.json();
+        setTasks(data);
+        
+    };
     
-    const handleAddTask = () => {
-      if (newTask.trim() === '') return;
-      setTasks([...tasks, { text: newTask, isDone: false }]);
-      setNewTask('');
+    const handleAddTask = async () => 
+    {
+        if (newTask.trim() === '') return;
+
+        const res=await fetch('api/todos/post', 
+          {
+            method: "POST",
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(
+            {
+                text: newTask,
+                isDone: false
+            }),
+          });
+
+          const created=await res.json();
+          setTasks((prev)=>[...prev, created]);
+          setNewTask('');
+    };
+    
+    const handleTaskDoneClick = async (index: number) => 
+    {
+        const task=tasks[index];
+        const updated={...task, isDone:!task.isDone};
+
+        const res=await fetch(`/api/todos/${task._id}`,
+        {
+            method: 'PUT',
+            headers:
+            {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({isDone: !task.isDone}),
+        })
+
+        const result=await res.json();
+        const updatedTasks=[...tasks];
+        updatedTasks[index]=result;
+        setTasks(updatedTasks);
     };
   
-    const handleTaskDoneClick = (index: number) => {
-      const updatedTasks = [...tasks];
-      updatedTasks[index].isDone = !updatedTasks[index].isDone;
-      setTasks(updatedTasks);
-    };
-  
-    const handleDeleteTask = (index: number) => {
-      const updatedTasks = tasks.filter((_, i) => i !== index);
-      setTasks(updatedTasks);
+    const handleDeleteTask = async (index: number) => 
+    {
+        const task=tasks[index];
+        await fetch(`/api/todos/${task._id}`,
+        {
+            method:'DELETE',
+        });
+
+        setTasks((prev)=>prev.filter((_,i)=>i !==index));
     };
     
     return (
@@ -113,7 +171,7 @@ export default function ToDo()
 
             {tasks.map((task, index) => (
               <div
-              key={index}
+              key={task._id}
               style={{
                 display:"flex",
                 alignItems:"center",

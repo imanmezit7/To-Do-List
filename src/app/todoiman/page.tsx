@@ -15,6 +15,7 @@ export default function ToDo()
     const [newTask, setNewTask] = useState('');
     const [editTask, setEditTask] = useState<{id: string; text: string} | null>(null);
     const [newDueDate, setNewDueDate] = useState('');
+    const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
     useEffect(()=>
     {
@@ -29,6 +30,18 @@ export default function ToDo()
         
     };
     
+    const playDoneSound=()=>
+    {
+        const audio=new Audio('/sounds/doneSound.mp3');
+        audio.play();
+    };
+
+    const playDeleteSound=()=>
+    {
+        const audio=new Audio('/sounds/deleteSound.mp3');
+        audio.play();
+    }
+
     const handleAddTask = async () => 
     {
         if (newTask.trim() === '') return;
@@ -54,10 +67,12 @@ export default function ToDo()
           setNewDueDate('');
     };
     
-    const handleTaskDoneClick = async (index: number) => 
+    const handleTaskDoneClick = async (taskId: string) => 
     {
-        const task=tasks[index];
-        const updated={...task, isDone:!task.isDone};
+      const index = tasks.findIndex((t) => t._id === taskId);
+      if (index === -1) return;
+      const task = tasks[index];
+      const updated = { ...task, isDone: !task.isDone };
 
         const res=await fetch(`/api/todos/${task._id}`,
         {
@@ -67,23 +82,27 @@ export default function ToDo()
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({isDone: !task.isDone}),
-        })
+        });
 
         const result=await res.json();
         const updatedTasks=[...tasks];
         updatedTasks[index]=result;
         setTasks(updatedTasks);
+        playDoneSound();
     };
   
-    const handleDeleteTask = async (index: number) => 
+    const handleDeleteTask = async (taskId: string) => 
     {
-        const task=tasks[index];
+        const index = tasks.findIndex((t) => t._id === taskId);
+        if (index === -1) return;
         await fetch(`/api/todos/${task._id}`,
         {
             method:'DELETE',
         });
 
         setTasks((prev)=>prev.filter((_,i)=>i !==index));
+
+        playDeleteSound();
     };
 
     const handleSaveEdit=async()=>
@@ -105,7 +124,13 @@ export default function ToDo()
         prev.map((t)=> (t._id === updated._id ? updated:t)));
         setEditTask(null);
     };
-    
+
+    const filteredTasks = tasks.filter(task => 
+    {
+        if (filter === 'active') return !task.isDone;
+        if (filter === 'completed') return task.isDone;
+        return true;
+    });
     return (
       <div
        style={{
@@ -140,6 +165,51 @@ export default function ToDo()
                   To-Do List 📝  
                 </b>
             </h1>
+            
+            
+            <div style={{marginBottom: '1rem'}}>  
+              <button 
+                onClick={() => setFilter('all')}
+                style={{
+                  marginRight: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  backgroundColor: filter === 'all' ? '#fa5531' : 'lightgray',
+                  color: filter === 'all' ? 'white' : 'midnightblue',
+                  border: 'none',
+                  borderRadius: '30px',
+                  cursor: 'pointer',
+                  fontWeight: filter === 'all' ? 'bold' : 'normal',
+                }}>
+                All
+              </button>
+              <button 
+                onClick={() => setFilter('active')}
+                style={{
+                  marginRight: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  backgroundColor: filter === 'active' ? '#fa5531' : 'lightgray',
+                  color: filter === 'active' ? 'white' : 'midnightblue',
+                  border: 'none',
+                  borderRadius: '30px',
+                  cursor: 'pointer',
+                  fontWeight: filter === 'active' ? 'bold' : 'normal',
+                }}>
+                Active
+              </button>
+              <button 
+                onClick={() => setFilter('completed')}
+                style={{
+                  padding: '0.5rem 1rem',
+                  backgroundColor: filter === 'completed' ? '#fa5531' : 'lightgray',
+                  color: filter === 'completed' ? 'white' : 'midnightblue',
+                  border: 'none',
+                  borderRadius: '30px',
+                  cursor: 'pointer',
+                  fontWeight: filter === 'completed' ? 'bold' : 'normal',
+                }}>
+                Completed
+              </button>
+            </div>
 
             <div
             style={{
@@ -283,10 +353,10 @@ export default function ToDo()
               width:"100%"
             }}>
 
-            {tasks.map((task, index) => (
+            {filteredTasks.map((task) => (
               <div
-              key={task._id}
-              style={{
+                key={task._id}
+                style={{
                 display:"flex",
                 alignItems:"center",
                 marginBottom: "1rem",
@@ -295,7 +365,7 @@ export default function ToDo()
 
               <button
               type="button"
-              onClick={() => handleTaskDoneClick(index)}
+              onClick={() => handleTaskDoneClick(task._id)}
               style={{
                 height: "4vh",
                 width: "4vh",
@@ -346,7 +416,7 @@ export default function ToDo()
               </button>
 
             <button
-              onClick={() => handleDeleteTask(index)}
+              onClick={() => handleDeleteTask(task._id)}
               style={{
                 fontSize: "110%",
                 marginLeft: "1rem",

@@ -23,13 +23,19 @@ async function getTodos()
 {
     const db=await connect();
     return await db.collection('todos').find().toArray();
+
+    return todos.map(todo => 
+    ({
+        ...todo,
+        _id: todo._id.toString(), 
+    }));
 }
 
 async function createTodo(data)
 {
     const db=await connect();
     const result=await db.collection('todos').insertOne(data);
-    return {_id: result.insertedId, ...data};
+    return {_id: result.insertedId.toString(), ...data};
 }
 
 async function updateTodo(id, data)

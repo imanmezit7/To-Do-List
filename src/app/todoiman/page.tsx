@@ -3,9 +3,9 @@ import {useState, useEffect} from 'react';
 
 type Task=
 {
-    _id:string;
-    text:string;
-    isDone:boolean;
+    _id: string;
+    text: string;
+    isDone: boolean;
     dueDate?: string;
 };
 
@@ -47,7 +47,7 @@ export default function ToDo()
         if (newTask.trim() === '') return;
 
         const res=await fetch('api/todos/post', 
-          {
+        {
             method: "POST",
             headers:
             {
@@ -95,7 +95,7 @@ export default function ToDo()
     {
         const index = tasks.findIndex((t) => t._id === taskId);
         if (index === -1) return;
-        await fetch(`/api/todos/${task._id}`,
+        await fetch(`/api/todos/${taskId}`,
         {
             method:'DELETE',
         });

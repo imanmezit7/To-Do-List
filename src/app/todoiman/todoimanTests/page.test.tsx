@@ -4,6 +4,7 @@ import ToDo from '../page';
 import '@testing-library/jest-dom';
 
 global.fetch = jest.fn();
+const mockedFetch = global.fetch as jest.Mock;  // <-- note the semicolon here
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -16,13 +17,13 @@ const mockTasks = [
 
 describe('ToDo component', () => {
   test('fetches and displays tasks on mount', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    mockedFetch.mockResolvedValueOnce({
       json: async () => mockTasks,
     });
 
     render(<ToDo />);
 
-    expect(fetch).toHaveBeenCalledWith('api/todos/get');
+    expect(mockedFetch).toHaveBeenCalledWith('api/todos/get');
 
     await waitFor(() => {
       expect(screen.getByText('Task 1')).toBeInTheDocument();
@@ -31,7 +32,7 @@ describe('ToDo component', () => {
   });
 
   test('adds a new task', async () => {
-    (fetch as jest.Mock)
+    mockedFetch
       .mockResolvedValueOnce({ json: async () => [] }) 
       .mockResolvedValueOnce({
         json: async () => ({ _id: '3', text: 'New Task', isDone: false }),
@@ -39,7 +40,7 @@ describe('ToDo component', () => {
 
     render(<ToDo />);
 
-    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockedFetch).toHaveBeenCalledTimes(1));
 
     const textarea = screen.getByPlaceholderText('Add your task');
     fireEvent.change(textarea, { target: { value: 'New Task' } });
@@ -47,7 +48,7 @@ describe('ToDo component', () => {
     fireEvent.click(screen.getByText('ADD'));
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('api/todos/post', expect.any(Object));
+      expect(mockedFetch).toHaveBeenCalledWith('api/todos/post', expect.any(Object));
       expect(screen.getByText('New Task')).toBeInTheDocument();
     });
   });

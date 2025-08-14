@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///C:/todopraksa/src/app/todoiman/layout.tsx"],"sourcesContent":["import React from 'react'\n\nexport default function ToDoLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <html lang=\"en\">\n      <body>\n        <header\n          style={{\n            backgroundColor: \"white\",\n            textAlign: \"center\",\n            verticalAlign: \"top\",\n            color: \"darkblue\",\n            fontFamily: \"Trebuchet MS\",\n            fontSize: \"150%\",\n          }}\n        >\n          <b>To-Do List 📝</b>\n        </header>\n\n        <main>{children}</main>\n      </body>\n    </html>\n  )\n}\n"],"names":[],"mappings":";;;;;AAEe,SAAS,WAAW,EACjC,QAAQ,EAGT;IACC,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;;8BACC,8OAAC;oBACC,OAAO;wBACL,iBAAiB;wBACjB,WAAW;wBACX,eAAe;wBACf,OAAO;wBACP,YAAY;wBACZ,UAAU;oBACZ;8BAEA,cAAA,8OAAC;kCAAE;;;;;;;;;;;8BAGL,8OAAC;8BAAM;;;;;;;;;;;;;;;;;AAIf","debugId":null}}]
+}

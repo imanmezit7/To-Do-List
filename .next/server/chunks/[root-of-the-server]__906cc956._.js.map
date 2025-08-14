@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 21, "column": 0}, "map": {"version":3,"sources":["file:///C:/todopraksa/src/pages/api/todos/get.js"],"sourcesContent":["import { getTodos } from '../../todoiman/todoapi.js';\r\n\r\nexport async function GET()\r\n{\r\n    try\r\n    {\r\n        const todos=await getTodos();\r\n        return new Response(JSON.stringify(todos),\r\n    {\r\n        status:200,\r\n        headers:{'Content-Type':'application/json',}\r\n    });\r\n    }\r\n    catch (error)\r\n    {\r\n        return new Response(JSON.stringify({error:'Failed to fetch todos'}),\r\n        {\r\n            status:500,\r\n        });\r\n    }\r\n}"],"names":[],"mappings":";;;;;;;;;AAEO,eAAe;IAElB,IACA;QACI,MAAM,QAAM,MAAM;QAClB,OAAO,IAAI,SAAS,KAAK,SAAS,CAAC,QACvC;YACI,QAAO;YACP,SAAQ;gBAAC,gBAAe;YAAmB;QAC/C;IACA,EACA,OAAO,OACP;QACI,OAAO,IAAI,SAAS,KAAK,SAAS,CAAC;YAAC,OAAM;QAAuB,IACjE;YACI,QAAO;QACX;IACJ;AACJ","debugId":null}}]
+}

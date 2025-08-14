@@ -1,0 +1,10 @@
+const CHUNK_PUBLIC_PATH = "server/pages/api/todos/[id].js";
+const runtime = require("../../../chunks/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/node_modules_next_dist_d1351930._.js");
+runtime.loadChunk("server/chunks/0e2bd_bson_lib_bson_cjs_7ecc7bea._.js");
+runtime.loadChunk("server/chunks/0e2bd_mongodb_b070a23b._.js");
+runtime.loadChunk("server/chunks/0e2bd_tr46_1209e7a5._.js");
+runtime.loadChunk("server/chunks/0e2bd_318a0be3._.js");
+runtime.loadChunk("server/chunks/[root-of-the-server]__965c0d13._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/pages-api.js { INNER_PAGE => \"[project]/src/pages/api/todos/[id].js [api] (ecmascript)\" } [api] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/pages-api.js { INNER_PAGE => \"[project]/src/pages/api/todos/[id].js [api] (ecmascript)\" } [api] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

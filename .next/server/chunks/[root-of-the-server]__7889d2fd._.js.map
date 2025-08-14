@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 21, "column": 0}, "map": {"version":3,"sources":["file:///C:/todopraksa/src/pages/api/todos/index.js"],"sourcesContent":["export default function handler(req, res) {\r\n    if (req.method === 'GET') {\r\n      // Handle GET request\r\n      res.status(200).json({ message: 'GET todos' });\r\n    } else if (req.method === 'POST') {\r\n      // Handle POST request\r\n      res.status(201).json({ message: 'POST todo' });\r\n    } else {\r\n      res.setHeader('Allow', ['GET', 'POST']);\r\n      res.status(405).end(`Method ${req.method} Not Allowed`);\r\n    }\r\n  }\r\n  "],"names":[],"mappings":";;;AAAe,SAAS,QAAQ,GAAG,EAAE,GAAG;IACpC,IAAI,IAAI,MAAM,KAAK,OAAO;QACxB,qBAAqB;QACrB,IAAI,MAAM,CAAC,KAAK,IAAI,CAAC;YAAE,SAAS;QAAY;IAC9C,OAAO,IAAI,IAAI,MAAM,KAAK,QAAQ;QAChC,sBAAsB;QACtB,IAAI,MAAM,CAAC,KAAK,IAAI,CAAC;YAAE,SAAS;QAAY;IAC9C,OAAO;QACL,IAAI,SAAS,CAAC,SAAS;YAAC;YAAO;SAAO;QACtC,IAAI,MAAM,CAAC,KAAK,GAAG,CAAC,CAAC,OAAO,EAAE,IAAI,MAAM,CAAC,YAAY,CAAC;IACxD;AACF","debugId":null}}]
+}

@@ -7,6 +7,7 @@ type Task=
     text: string;
     isDone: boolean;
     dueDate?: string;
+    priority: "high"|"medium"|"low";
 };
 
 export default function ToDo() 
@@ -16,6 +17,7 @@ export default function ToDo()
     const [editTask, setEditTask] = useState<{id: string; text: string} | null>(null);
     const [newDueDate, setNewDueDate] = useState('');
     const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+    const [selectedPriority, setSelectedPriority] = useState< "high"|"medium"|"low"|null>(null);
 
     useEffect(()=>
     {
@@ -58,6 +60,7 @@ export default function ToDo()
                 text: newTask,
                 isDone: false,
                 dueDate:newDueDate || null,
+                priority: selectedPriority || "low",
             }),
           });
 
@@ -65,6 +68,7 @@ export default function ToDo()
           setTasks((prev)=>[...prev, created]);
           setNewTask('');
           setNewDueDate('');
+          setSelectedPriority(null);
     };
     
     const handleTaskDoneClick = async (taskId: string) => 
@@ -131,6 +135,14 @@ export default function ToDo()
         if (filter === 'completed') return task.isDone;
         return true;
     });
+
+    const getPriorityEmoji=(priority: string) =>
+    {
+        if(priority==="high") return "🔴";
+        if(priority==="medium") return "🌕";
+        if(priority==="low") return "🔵";
+        return "";
+    }
     return (
       <div
        style={{
@@ -182,6 +194,7 @@ export default function ToDo()
                 }}>
                 All
               </button>
+
               <button 
                 onClick={() => setFilter('active')}
                 style={{
@@ -259,6 +272,50 @@ export default function ToDo()
               
               }}>
             </input>
+
+            <div>
+              <span style={{
+                marginRight:"1rem",
+                color:"midnightblue",
+                fontWeight:"bold"
+              }}>Priority:</span>
+
+              <button
+                onClick={()=> setSelectedPriority("high")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="high" ? "2px solid red" : "none", 
+                  marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer"
+                }}>
+                🔴
+              </button>
+
+              <button
+                onClick={()=> setSelectedPriority("medium")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="medium" ? "2px solid red" : "none", 
+                  marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer"
+                }}>
+                🌕
+              </button>
+
+              <button
+                onClick={()=> setSelectedPriority("low")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="low" ? "2px solid red" : "none", 
+                  marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer"
+                }}>
+                🔵
+              </button>
+            </div>
 
             <button 
               type="button"
@@ -389,6 +446,12 @@ export default function ToDo()
                 color: "midnightblue",
                 textDecoration: task.isDone ? "line-through" : "none"
               }}>
+                <span 
+                  style={{
+                    marginRight: "0.5rem"
+                  }}>
+                    {getPriorityEmoji (task.priority)}
+                  </span>
               {task.text}
               {task.dueDate && 
               (

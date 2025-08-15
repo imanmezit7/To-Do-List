@@ -1,1 +1,8 @@
-{}
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/api/todos/[id]": "pages/api/todos/[id].js",
+  "/api/todos/get": "pages/api/todos/get.js",
+  "/api/todos/post": "pages/api/todos/post.js"
+}

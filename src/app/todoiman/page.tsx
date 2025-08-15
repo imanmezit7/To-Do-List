@@ -226,7 +226,7 @@ export default function ToDo()
             onChange={(e) => setNewTask(e.target.value)}
             rows={1}
             style={{
-                width:"60%",
+                width:"30%",
                 height:"8vh",
                 backgroundColor:"lightgray",
                 border:"5px solid lightgray",
@@ -259,6 +259,17 @@ export default function ToDo()
               
               }}>
             </input>
+            
+            <button
+              type="button"
+              style={{
+                fontSize: "110%",
+                  marginLeft: "1rem",
+                  border: "none",
+                  cursor: "pointer",
+              }}>
+              🔴
+            </button>
 
             <button 
               type="button"
@@ -266,7 +277,7 @@ export default function ToDo()
               style={{
                 marginLeft: "0.5rem",
                 height:"8vh",
-                width:"25%",
+                width:"20%",
                 backgroundColor:"#fa5531",
                 border:"5px solid #fa5531",
                 borderRadius:"30px",

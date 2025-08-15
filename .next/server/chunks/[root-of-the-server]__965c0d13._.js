@@ -247,6 +247,37 @@ async function handler(req, res) {
         });
     }
 }
+;
+async function handler(req, res) {
+    const { id } = req.query;
+    if (req.method === 'PUT') {
+        try {
+            const updated = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$todoiman$2f$todoapi$2e$js__$5b$api$5d$__$28$ecmascript$29$__["updateTodo"])(id, req.body);
+            res.status(200).json(updated);
+        } catch (err) {
+            res.status(500).json({
+                error: 'Failed to update todo'
+            });
+        }
+    } else if (req.method === 'DELETE') {
+        try {
+            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$todoiman$2f$todoapi$2e$js__$5b$api$5d$__$28$ecmascript$29$__["deleteTodo"])(id);
+            res.status(204).end();
+        } catch (err) {
+            res.status(500).json({
+                error: 'Failed to delete todo'
+            });
+        }
+    } else {
+        res.setHeader('Allow', [
+            'PUT',
+            'DELETE'
+        ]);
+        res.status(405).json({
+            error: 'Method not allowed'
+        });
+    }
+}
 }),
 
 };

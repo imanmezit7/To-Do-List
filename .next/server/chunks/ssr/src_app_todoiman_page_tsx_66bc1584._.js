@@ -227,7 +227,7 @@ function ToDo() {
                             onChange: (e)=>setNewTask(e.target.value),
                             rows: 1,
                             style: {
-                                width: "60%",
+                                width: "30%",
                                 height: "8vh",
                                 backgroundColor: "lightgray",
                                 border: "5px solid lightgray",
@@ -268,11 +268,25 @@ function ToDo() {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             type: "button",
+                            style: {
+                                fontSize: "110%",
+                                marginLeft: "1rem",
+                                border: "none",
+                                cursor: "pointer"
+                            },
+                            children: "🔴"
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/todoiman/page.tsx",
+                            lineNumber: 263,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            type: "button",
                             onClick: handleAddTask,
                             style: {
                                 marginLeft: "0.5rem",
                                 height: "8vh",
-                                width: "25%",
+                                width: "20%",
                                 backgroundColor: "#fa5531",
                                 border: "5px solid #fa5531",
                                 borderRadius: "30px",
@@ -283,7 +297,7 @@ function ToDo() {
                             children: "ADD"
                         }, void 0, false, {
                             fileName: "[project]/src/app/todoiman/page.tsx",
-                            lineNumber: 263,
+                            lineNumber: 274,
                             columnNumber: 13
                         }, this)
                     ]
@@ -324,7 +338,7 @@ function ToDo() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/todoiman/page.tsx",
-                            lineNumber: 290,
+                            lineNumber: 301,
                             columnNumber: 23
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -344,7 +358,7 @@ function ToDo() {
                             children: "SAVE"
                         }, void 0, false, {
                             fileName: "[project]/src/app/todoiman/page.tsx",
-                            lineNumber: 313,
+                            lineNumber: 324,
                             columnNumber: 23
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -364,13 +378,13 @@ function ToDo() {
                             children: "CANCEL"
                         }, void 0, false, {
                             fileName: "[project]/src/app/todoiman/page.tsx",
-                            lineNumber: 330,
+                            lineNumber: 341,
                             columnNumber: 23
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/todoiman/page.tsx",
-                    lineNumber: 283,
+                    lineNumber: 294,
                     columnNumber: 21
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -404,7 +418,7 @@ function ToDo() {
                                     children: task.isDone ? "✓" : ""
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todoiman/page.tsx",
-                                    lineNumber: 366,
+                                    lineNumber: 377,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span" //for styling or grouping text or inline elements
@@ -431,13 +445,13 @@ function ToDo() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/todoiman/page.tsx",
-                                            lineNumber: 395,
+                                            lineNumber: 406,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/todoiman/page.tsx",
-                                    lineNumber: 384,
+                                    lineNumber: 395,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -454,7 +468,7 @@ function ToDo() {
                                     children: "✏️"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todoiman/page.tsx",
-                                    lineNumber: 407,
+                                    lineNumber: 418,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -468,18 +482,18 @@ function ToDo() {
                                     children: "✖️"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todoiman/page.tsx",
-                                    lineNumber: 418,
+                                    lineNumber: 429,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, task._id, true, {
                             fileName: "[project]/src/app/todoiman/page.tsx",
-                            lineNumber: 357,
+                            lineNumber: 368,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/todoiman/page.tsx",
-                    lineNumber: 350,
+                    lineNumber: 361,
                     columnNumber: 13
                 }, this)
             ]

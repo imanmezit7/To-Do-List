@@ -7,15 +7,17 @@ type Task=
     text: string;
     isDone: boolean;
     dueDate?: string;
+    priority: "high"|"medium"|"low";
 };
 
 export default function ToDo() 
 {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [newTask, setNewTask] = useState('');
-    const [editTask, setEditTask] = useState<{id: string; text: string} | null>(null);
+    const [editTask, setEditTask] = useState<{id: string; text: string; priority: "high"|"medium"|"low"; dueDate?: string|null} | null>(null);
     const [newDueDate, setNewDueDate] = useState('');
     const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+    const [selectedPriority, setSelectedPriority] = useState< "high"|"medium"|"low"|null>(null);
 
     useEffect(()=>
     {
@@ -58,6 +60,7 @@ export default function ToDo()
                 text: newTask,
                 isDone: false,
                 dueDate:newDueDate || null,
+                priority: selectedPriority || "low",
             }),
           });
 
@@ -65,6 +68,7 @@ export default function ToDo()
           setTasks((prev)=>[...prev, created]);
           setNewTask('');
           setNewDueDate('');
+          setSelectedPriority(null);
     };
     
     const handleTaskDoneClick = async (taskId: string) => 
@@ -116,7 +120,10 @@ export default function ToDo()
             {
               'Content-Type': 'application/json'
             },
-            body:JSON.stringify({text:editTask.text}),
+            body:JSON.stringify({
+              text: editTask.text, 
+              priority: editTask.priority,
+              dueDate: editTask.dueDate||null,}),
         });
 
         const updated=await res.json();
@@ -131,6 +138,14 @@ export default function ToDo()
         if (filter === 'completed') return task.isDone;
         return true;
     });
+
+    const getPriorityEmoji=(priority: string) =>
+    {
+        if(priority==="high") return "🔴";
+        if(priority==="medium") return "🌕";
+        if(priority==="low") return "🔵";
+        return "";
+    }
     return (
       <div
        style={{
@@ -138,7 +153,7 @@ export default function ToDo()
         minHeight: "100vh",
         display: "flex",               
         justifyContent: "center",      
-        alignItems: "center" 
+        alignItems: "center", 
         }}>
         
         <div
@@ -179,9 +194,11 @@ export default function ToDo()
                   borderRadius: '30px',
                   cursor: 'pointer',
                   fontWeight: filter === 'all' ? 'bold' : 'normal',
+                  fontFamily:"trebuchet ms",
                 }}>
                 All
               </button>
+
               <button 
                 onClick={() => setFilter('active')}
                 style={{
@@ -193,6 +210,7 @@ export default function ToDo()
                   borderRadius: '30px',
                   cursor: 'pointer',
                   fontWeight: filter === 'active' ? 'bold' : 'normal',
+                  fontFamily:"trebuchet ms",
                 }}>
                 Active
               </button>
@@ -206,6 +224,7 @@ export default function ToDo()
                   borderRadius: '30px',
                   cursor: 'pointer',
                   fontWeight: filter === 'completed' ? 'bold' : 'normal',
+                  fontFamily:"trebuchet ms",
                 }}>
                 Completed
               </button>
@@ -226,7 +245,7 @@ export default function ToDo()
             onChange={(e) => setNewTask(e.target.value)}
             rows={1}
             style={{
-                width:"60%",
+                width:"32.5%",
                 height:"8vh",
                 backgroundColor:"lightgray",
                 border:"5px solid lightgray",
@@ -248,6 +267,7 @@ export default function ToDo()
               onChange={(e) => setNewDueDate(e.target.value)}
               style={{
                 marginLeft: "0.5rem",
+                width:"20%",
                 height: "8vh",
                 backgroundColor: "lightgray",
                 border: "5px solid lightgray",
@@ -256,9 +276,59 @@ export default function ToDo()
                 fontFamily: "trebuchet ms",
                 fontSize: "95%",
                 padding: "0.5rem"
-              
               }}>
             </input>
+
+            <div>
+              <span style={{
+                //marginRight:"0.5rem",
+                color:"midnightblue",
+                fontFamily: "trebuchet ms",
+                fontWeight:"bold",
+                fontSize:"110%",
+                padding:"0.5rem",  
+              }}>
+                Priority:
+              </span>
+
+              <button
+                onClick={()=> setSelectedPriority("high")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="high" ? "2px solid red" : "none", 
+                  //marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer",
+                  //padding:"0.5rem",
+                }}>
+                🔴
+              </button>
+
+              <button
+                onClick={()=> setSelectedPriority("medium")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="medium" ? "2px solid red" : "none", 
+                  //marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer",
+                  padding:"0.5rem",
+                }}>
+                🌕
+              </button>
+
+              <button
+                onClick={()=> setSelectedPriority("low")}
+                style={{
+                  fontSize:"100%",
+                  border: selectedPriority=="low" ? "2px solid red" : "none", 
+                  //marginRight: "0.5rem",
+                  background:"transparent",
+                  cursor:"pointer",
+                }}>
+                🔵
+              </button>
+            </div>
 
             <button 
               type="button"
@@ -266,13 +336,13 @@ export default function ToDo()
               style={{
                 marginLeft: "0.5rem",
                 height:"8vh",
-                width:"25%",
+                width:"21%",
                 backgroundColor:"#fa5531",
                 border:"5px solid #fa5531",
                 borderRadius:"30px",
                 fontFamily:"trebuchet ms",
                 fontSize:"110%",
-                fontWeight:"bold"
+                fontWeight:"bold",
               }}
               >ADD</button>
             </div>
@@ -293,7 +363,7 @@ export default function ToDo()
                         rows={1}
                         style={{
                           
-                          width:"40%",
+                          width:"32.5%",
                           height:"8vh",
                           backgroundColor:"lightgray",
                           border:"5px solid lightgray",
@@ -309,18 +379,85 @@ export default function ToDo()
 
                         }}>
                       </textarea>
+                      
+                      <input
+                        type="date"
+                        value={editTask.dueDate ? editTask.dueDate.split ("T")[0]:""}
+                        onChange={(e) => setEditTask({...editTask, dueDate: e.target.value})}
+                        style={{
+                          marginLeft:"0.5rem",
+                          padding: "0.5rem",
+                          width: "20%",
+                          height: "8vh",
+                          backgroundColor: "lightgray",
+                          border: "5px solid lightgray",
+                          borderRadius: "30px",
+                          color: "midnightblue",
+                          fontFamily: "trebuchet ms",
+                          fontSize: "95%",
+                        }}>
+                      </input>
+                      
+                      <div 
+                        style={{
+                          display:"flex", 
+                          alignItems:"center"}}>
+                        <span style={{
+                          color:"midnightblue",
+                          fontFamily: "trebuchet ms",
+                          fontWeight:"bold",
+                          fontSize:"110%",
+                          padding:"0.5rem",  
+                        }}>
+                          Priority:
+                        </span>
+
+                        <button
+                          onClick={()=> setEditTask({...editTask, priority:"high"})}
+                          style={{
+                            fontSize:"100%",
+                            border: editTask.priority=="high" ? "2px solid red" : "none", 
+                            background:"transparent",
+                            cursor:"pointer",
+                          }}>
+                          🔴
+                        </button>
+
+                        <button
+                          onClick={()=> setEditTask({...editTask, priority:"medium"})}
+                          style={{
+                            fontSize:"100%",
+                            border: editTask.priority=="medium" ? "2px solid red" : "none", 
+                            background:"transparent",
+                            cursor:"pointer",
+                            padding:"0.5rem",
+                          }}>
+                          🌕
+                        </button>
+
+                        <button
+                          onClick={()=> setEditTask({...editTask, priority:"low"})}
+                          style={{
+                            fontSize:"100%",
+                            border: editTask.priority=="low" ? "2px solid red" : "none", 
+                            background:"transparent",
+                            cursor:"pointer",
+                          }}>
+                          🔵
+                        </button>
+                      </div>
 
                       <button
                         onClick={handleSaveEdit}
                         style={{
                           marginLeft: "0.5rem",
                           height: "8vh",
-                          width: "20%",
+                          width: "10%",
                           backgroundColor: "#00C73E",
                           border: "2px solid #00C73E",
                           borderRadius: "30px",
                           fontFamily: "trebuchet ms",
-                          fontSize: "110%",
+                          fontSize: "100%",
                           fontWeight: "bold",
                           color: "white"
                         }}>
@@ -332,12 +469,12 @@ export default function ToDo()
                         style={{
                           marginLeft: "0.5rem",
                           height: "8vh",
-                          width: "20%",
+                          width: "10%",
                           backgroundColor: "#BF0814",
                           border: "2px solid #BF08145",
                           borderRadius: "30px",
                           fontFamily: "trebuchet ms",
-                          fontSize: "110%",
+                          fontSize: "100%",
                           fontWeight: "bold",
                           color: "white"
                         }}>
@@ -389,6 +526,12 @@ export default function ToDo()
                 color: "midnightblue",
                 textDecoration: task.isDone ? "line-through" : "none"
               }}>
+                <span 
+                  style={{
+                    marginRight: "0.5rem"
+                  }}>
+                    {getPriorityEmoji (task.priority)}
+                  </span>
               {task.text}
               {task.dueDate && 
               (
@@ -405,7 +548,7 @@ export default function ToDo()
             
             
             <button
-                onClick={() => setEditTask({ id: task._id, text: task.text })}
+                onClick={() => setEditTask({ id: task._id, text: task.text, priority: task.priority, dueDate: task.dueDate||null})}
                 style={{
                   fontSize: "110%",
                   marginLeft: "1rem",

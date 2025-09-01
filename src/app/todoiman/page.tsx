@@ -48,6 +48,19 @@ export default function ToDo()
     {
         if (newTask.trim() === '') return;
 
+        const taskPr: {
+          text: string;
+          isDone: boolean;
+          dueDate: string | null;
+          priority: "high" | "medium" | "low" | null;
+        } = {
+          text: newTask,
+          isDone: false,
+          dueDate: newDueDate || null,
+          priority: selectedPriority,
+        };
+
+        
         const res=await fetch('api/todos/post', 
         {
             method: "POST",
@@ -55,13 +68,7 @@ export default function ToDo()
             {
                 'Content-Type': 'application/json',
             },
-            body:JSON.stringify(
-            {
-                text: newTask,
-                isDone: false,
-                dueDate:newDueDate || null,
-                priority: selectedPriority || "low",
-            }),
+            body:JSON.stringify(taskPr),
           });
 
           const created=await res.json();
